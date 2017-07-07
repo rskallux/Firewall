@@ -24,7 +24,7 @@ LOCAL="177.17.7.0/24"                #Rede interna da estrutura
 
 
 ##---| Declarar Variaveis IPs
-GW="199.19.9.1"         #IP do Roteador de onde vem a internet
+GW="199.19.9.1"          #IP do Roteador de onde vem a internet
 FW="177.17.7.1"          #IP da minha máquina Firewall
 
 
@@ -110,9 +110,9 @@ $IPT -A SSH-BRUT-FORCE -m limit --limit 1/s --limit-burst 4 -j RETURN
 $IPT -A SSH-BRUT-FORCE -j DROP
 
 
-#---------| Liberando e logando o SSH na porta 22 (Esse campo loga todos os acessos do SSH na porta 22 no arquivo de log no local /var/log/krn.log
-$IPT -A INPUT -p tcp -d $GW --dport $PSSH -m limit --limit 5/minute --limit-burst 1 -j LOG --log-prefix "ssh22 " --log-level alert
-$IPT -A INPUT -p tcp -d $GW --dport $PSSH -j ACCEPT
+#---------| Bloqueando e logando o SSH na porta 22 (Esse campo loga todos os acessos do SSH na porta 22 no arquivo de log no local /var/log/krn.log
+$IPT -A INPUT -p tcp -d $FW --dport $PSSH -m limit --limit 5/minute --limit-burst 1 -j LOG --log-prefix "ssh22 " --log-level alert
+$IPT -A INPUT -p tcp -d $FW --dport $PSSH -j DROP
 
 
 #---| Bloqueio Broadcast
